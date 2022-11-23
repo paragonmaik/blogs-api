@@ -3,9 +3,11 @@ import app from "../app";
 import { StatusCodes } from "http-status-codes";
 
 const validData = {
-	email: "email",
-	password: "password",
+	email: "lewishamilton@gmail.com",
+	password: "123456",
 };
+const emptyFieldsData = [{ email: "" }, { password: "" }, {}];
+const data = { email: "email", password: "password" };
 
 describe("POST /login", () => {
 	describe("With adequate email and password", () => {
@@ -29,13 +31,16 @@ describe("POST /login", () => {
 			expect(response.body.token).toBeDefined();
 		});
 
-		// it should return a valid token
+		it("should return a valid token", async () => {
+			const response = await request(app).post("/login").send(validData);
+
+			expect(response.body).toEqual({
+				token: "teste",
+			});
+		});
 	});
 
 	describe("With inadequate email and password", () => {
-		const emptyFieldsData = [{ email: "" }, { password: "" }, {}];
-		const data = [{ email: "email" }, { password: "password" }, {}];
-
 		it("should respond with status code 400", async () => {
 			for (const body of emptyFieldsData) {
 				const response = await request(app).post("/login").send(body);
@@ -54,15 +59,12 @@ describe("POST /login", () => {
 			}
 		});
 
-		it("should respond with json type header", async () => {
-			for (const body of data) {
-				const response = await request(app).post("/login").send(body);
+		it("should respond with correct error message in case of invalid user", async () => {
+			const response = await request(app).post("/login").send(data);
 
-				expect(response.headers["content-type"]).toEqual(
-					expect.stringContaining("json")
-				);
-			}
+			expect(response.body).toEqual({
+				message: "Invalid Fields",
+			});
 		});
-		// should return correct error message
 	});
 });
