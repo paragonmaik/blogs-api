@@ -41,18 +41,14 @@ describe("POST /login", () => {
 			for (const body of emptyFieldsData) {
 				const response = await request(app).post("/login").send(body);
 
-				expect(response.body).toEqual({
-					message: "Some required fields are missing",
-				});
+				expect(response.body.message).toBe("Some required fields are missing");
 			}
 		});
 
 		it("should respond with correct error message in case of invalid user", async () => {
 			const response = await request(app).post("/login").send(invalidUserData);
 
-			expect(response.body).toEqual({
-				message: "Invalid email or password",
-			});
+			expect(response.body.message).toBe("Invalid email or password");
 		});
 
 		it("should respond with correct error message in case of invalid password", async () => {
@@ -60,9 +56,7 @@ describe("POST /login", () => {
 				.post("/login")
 				.send(invalidPasswordData);
 
-			expect(response.body).toEqual({
-				message: "Invalid email or password",
-			});
+			expect(response.body.message).toBe("Invalid email or password");
 		});
 	});
 });
