@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid())
+  id          Int        @id @default(autoincrement())
   email       String     @unique
   password    String
   image       String
@@ -20,28 +20,28 @@ model User {
 }
 
 model BlogPost {
-  id              String         @id @default(uuid())
+  id              Int            @id @default(autoincrement())
   title           String
   content         String
-  userId          String
+  userId          Int?
   updated         DateTime       @updatedAt
   published       DateTime       @default(now())
-  belongsTo       User           @relation(fields: [userId], references: [id])
+  belongsTo       User?          @relation(fields: [userId], references: [id])
   PostsCategories PostCategory[]
 
   @@unique([id, userId])
 }
 
 model Category {
-  id              String         @id @default(uuid())
+  id              Int            @id @default(autoincrement())
   name            String         @db.VarChar(255)
   PostsCategories PostCategory[]
 }
 
 model PostCategory {
-  id         String   @id @default(uuid())
-  categoryId String
-  postId     String
+  id         Int      @id @default(autoincrement())
+  categoryId Int
+  postId     Int
   BlogPost   BlogPost @relation(fields: [postId], references: [id])
   Category   Category @relation(fields: [categoryId], references: [id])
 }
