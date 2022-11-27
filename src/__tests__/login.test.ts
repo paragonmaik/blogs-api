@@ -1,15 +1,19 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-
-const validData = {
-	email: "lewishamilton@gmail.com",
-	password: "123456",
-};
-const emptyFieldsData = [{ email: "" }, { password: "" }, {}];
-const data = { email: "email", password: "password" };
+import { seedDB } from "../../prisma/test-setup";
+import {
+	validData,
+	emptyFieldsData,
+	invalidUserData,
+	invalidPasswordData,
+} from "./mocks/loginMockData";
 
 describe("POST /login", () => {
+	beforeAll(() => {
+		seedDB();
+	});
+
 	describe("With adequate email and password", () => {
 		it("should respond with status code 200", async () => {
 			const response = await request(app).post("/login").send(validData);
@@ -17,26 +21,10 @@ describe("POST /login", () => {
 			expect(response.statusCode).toBe(StatusCodes.OK);
 		});
 
-		it("should respond with json type header", async () => {
-			const response = await request(app).post("/login").send(validData);
-
-			expect(response.headers["content-type"]).toEqual(
-				expect.stringContaining("json")
-			);
-		});
-
 		it("should return a token", async () => {
 			const response = await request(app).post("/login").send(validData);
 
 			expect(response.body.token).toBeDefined();
-		});
-
-		it("should return a valid token", async () => {
-			const response = await request(app).post("/login").send(validData);
-
-			expect(response.body).toEqual({
-				token: "teste",
-			});
 		});
 	});
 
@@ -60,10 +48,20 @@ describe("POST /login", () => {
 		});
 
 		it("should respond with correct error message in case of invalid user", async () => {
-			const response = await request(app).post("/login").send(data);
+			const response = await request(app).post("/login").send(invalidUserData);
 
 			expect(response.body).toEqual({
-				message: "Invalid Fields",
+				message: "Invalid email or password",
+			});
+		});
+
+		it("should respond with correct error message in case of invalid password", async () => {
+			const response = await request(app)
+				.post("/login")
+				.send(invalidPasswordData);
+
+			expect(response.body).toEqual({
+				message: "Invalid email or password",
 			});
 		});
 	});
