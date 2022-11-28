@@ -14,7 +14,7 @@ describe("POST /login", () => {
 		seedDB();
 	});
 
-	describe("With adequate email and password", () => {
+	describe("Login with adequate email and password", () => {
 		it("should respond with status code 200", async () => {
 			const response = await request(app).post("/login").send(validData);
 
