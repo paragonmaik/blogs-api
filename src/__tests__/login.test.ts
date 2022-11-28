@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { seedDB } from "../../prisma/test-setup";
 import {
 	validData,
-	emptyFieldsData,
+	missingFieldsData,
 	invalidUserData,
 	invalidPasswordData,
 } from "./mocks/loginMockData";
@@ -30,7 +30,7 @@ describe("POST /login", () => {
 
 	describe("With inadequate email and password", () => {
 		it("should respond with status code 400", async () => {
-			for (const body of emptyFieldsData) {
+			for (const body of missingFieldsData) {
 				const response = await request(app).post("/login").send(body);
 
 				expect(response.statusCode).toBe(StatusCodes.BAD_REQUEST);
@@ -38,7 +38,7 @@ describe("POST /login", () => {
 		});
 
 		it("should respond with correct error message in case of missing fields", async () => {
-			for (const body of emptyFieldsData) {
+			for (const body of missingFieldsData) {
 				const response = await request(app).post("/login").send(body);
 
 				expect(response.body.message).toBe("Some required fields are missing");

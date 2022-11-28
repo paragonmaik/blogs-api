@@ -13,4 +13,4 @@ export const invalidPasswordData = {
 	password: "password",
 };
 
-export const emptyFieldsData = [{ email: "" }, { password: "" }, {}];
+export const missingFieldsData = [{ email: "" }, { password: "" }, {}];
