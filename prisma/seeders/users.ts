@@ -8,7 +8,7 @@ export const users = [
 	},
 	{
 		displayName: "Michael Schumacher",
-		email: "MichaelSchumacher@gmail.com",
+		email: "michaelschumacher@gmail.com",
 		password: "$2b$05$rCqfIPhZoejnEQ1wM0MmFOoEhz.B2ApHlb.Yn33Vw4EnYWNzZGV5q",
 		image:
 			"https://sportbuzz.uol.com.br/media/_versions/gettyimages-52491565_widelg.jpg",
