@@ -4,6 +4,15 @@ import { HttpException } from "../middlewares/HttpException";
 import prisma from "../db";
 import { StatusCodes } from "http-status-codes";
 
+export const getUsersList = () =>
+	prisma.user.findMany({
+		select: {
+			displayName: true,
+			image: true,
+			email: true,
+		},
+	});
+
 export const registerUser = async (user: IUser) => {
 	const findUserResponse = await prisma.user.findUnique({
 		where: {
