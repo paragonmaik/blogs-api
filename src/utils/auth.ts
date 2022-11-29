@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import { StatusCodes } from "http-status-codes";
 import { IJWTPayload } from "../interfaces/IJWTPayload";
 
 const SECRET = process.env.JWT_SECRET || "secret_key";
@@ -23,6 +24,9 @@ export const authToken = async (token: string) => {
 		const introspection = await jwt.verify(token, SECRET);
 		return introspection;
 	} catch (e) {
-		return { status: 401, message: "Expired or invalid token" };
+		return {
+			status: StatusCodes.UNAUTHORIZED,
+			message: "Expired or invalid token",
+		};
 	}
 };
