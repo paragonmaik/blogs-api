@@ -10,6 +10,8 @@ export const getAllUsers = async (_req: Request, res: Response) => {
 	res.status(StatusCodes.OK).json(response);
 };
 
+export const getUserById = async (_req: Request, res: Response) => {};
+
 export const createUser = async (
 	req: Request<unknown, unknown, IUser>,
 	res: Response
