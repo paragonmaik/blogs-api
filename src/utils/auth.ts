@@ -18,6 +18,11 @@ export const createToken = (payload: IJWTPayload) => jwt.sign(payload, SECRET);
 export const authToken = async (token: string) => {
 	try {
 		const introspection = await jwt.verify(token, SECRET);
+
+		if (typeof introspection === "string") {
+			throw new Error("Something went wrong");
+		}
+
 		return introspection;
 	} catch (e) {
 		return {
