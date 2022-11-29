@@ -4,14 +4,33 @@ import { HttpException } from "../middlewares/HttpException";
 import prisma from "../db";
 import { StatusCodes } from "http-status-codes";
 
-export const getUsersList = () =>
-	prisma.user.findMany({
+export const getUsersList = async () =>
+	await prisma.user.findMany({
 		select: {
 			displayName: true,
 			image: true,
 			email: true,
 		},
 	});
+
+export const getOneUser = async (id: number) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: id,
+		},
+		select: {
+			displayName: true,
+			image: true,
+			email: true,
+		},
+	});
+
+	if (!user) {
+		throw new HttpException(StatusCodes.NOT_FOUND, "User does not exist");
+	}
+
+	return user;
+};
 
 export const registerUser = async (user: IUser) => {
 	const findUserResponse = await prisma.user.findUnique({
