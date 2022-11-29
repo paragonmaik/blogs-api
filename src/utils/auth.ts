@@ -16,10 +16,6 @@ export const comparePasswords = (password: string, hashedPassword: string) => {
 export const createToken = (payload: IJWTPayload) => jwt.sign(payload, SECRET);
 
 export const authToken = async (token: string) => {
-	if (!token) {
-		return { status: 401, message: "Token not found" };
-	}
-
 	try {
 		const introspection = await jwt.verify(token, SECRET);
 		return introspection;
