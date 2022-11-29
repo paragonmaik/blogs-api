@@ -1,3 +1,7 @@
+/* 
+  createUser mocks
+*/
+
 export const validData = {
 	displayName: "Rubinho Barrichello",
 	email: "rubinho@gmail.com",
@@ -67,3 +71,22 @@ export const alreadyRegisteredUser = {
 	image:
 		"https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg",
 };
+
+/* 
+  getUsers mocks
+*/
+
+export const usersList = [
+	{
+		displayName: "Lewis Hamilton",
+		email: "lewishamilton@gmail.com",
+		image:
+			"https://upload.wikimedia.org/wikipedia/commons/1/18/Lewis_Hamilton_2016_Malaysia_2.jpg",
+	},
+	{
+		displayName: "Michael Schumacher",
+		email: "michaelschumacher@gmail.com",
+		image:
+			"https://sportbuzz.uol.com.br/media/_versions/gettyimages-52491565_widelg.jpg",
+	},
+];
