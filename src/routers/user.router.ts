@@ -8,6 +8,7 @@ require("express-async-errors");
 const routers = express.Router();
 
 routers.get("/", authenticationMiddleware, getAllUsers);
+routers.get("/:id", authenticationMiddleware);
 routers.post("/", validateSchema(UserSchema), createUser);
 
 export default routers;
