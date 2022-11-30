@@ -60,3 +60,13 @@ export const registerUser = async (user: IUser) => {
 	const token = createToken({ ...user, id: payload.id });
 	return token;
 };
+
+export const removeUser = async (email: string) => {
+	const response = await prisma.user.delete({
+		where: {
+			email,
+		},
+	});
+
+	return response;
+};

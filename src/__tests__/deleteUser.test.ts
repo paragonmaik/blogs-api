@@ -1,10 +1,36 @@
 import request from "supertest";
 import app from "../app";
+import prisma from "../db";
 import { StatusCodes } from "http-status-codes";
-import { usersList } from "./mocks/userMockData";
+import { loginData } from "./mocks/loginMockData";
+import { seedDB } from "../../prisma/test-setup";
 
-describe("", () => {
-	describe("With invalid authorization field", () => {
+describe("DELETE /user/me", () => {
+	beforeAll(() => {
+		seedDB();
+	});
+	describe("With valid token", () => {
+		it("should respond with status code 204", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.delete("/user/me")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.NO_CONTENT);
+		});
+
+		it("should not be able to find user in the database", async () => {
+			const deletedUser = await prisma.user.findFirst({
+				where: {
+					email: loginData.email,
+				},
+			});
+
+			expect(deletedUser).toBeNull();
+		});
+	});
+	describe("With invalid token", () => {
 		const invalidTokenCases = ["invalid-token", ""];
 
 		it("should respond with status code 401", async () => {

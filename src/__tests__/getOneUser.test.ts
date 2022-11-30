@@ -50,7 +50,7 @@ describe("GET /users/:id", () => {
 		});
 	});
 
-	describe("With invalid authorization field", () => {
+	describe("With invalid token", () => {
 		const invalidTokenCases = ["invalid-token", ""];
 
 		it("should respond with status code 401", async () => {
