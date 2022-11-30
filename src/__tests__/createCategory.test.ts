@@ -1,9 +1,61 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
+import { loginData } from "./mocks/loginMockData";
+import { seedDB } from "../../prisma/test-setup";
+
+const firstCategory = { name: "TypeScript" };
+const secondCategory = { name: "C++" };
 
 describe("POST /categories", () => {
-	describe("User with valid token", () => {});
+	beforeAll(() => {
+		seedDB();
+	});
+
+	describe("Categories with valid token", () => {
+		it("should respond with status code 201", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/categories")
+				.send(firstCategory)
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.statusCode).toBe(StatusCodes.CREATED);
+		});
+
+		it("should respond with created category data", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/categories")
+				.send(secondCategory)
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.body.id).toBeDefined();
+			expect(response.body.name).toBe(secondCategory.name);
+		});
+
+		it("should respond with status code 400", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/categories")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.BAD_REQUEST);
+		});
+
+		it("should respond with with correct error message", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/categories")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.body.message).toBe('"name" is required');
+		});
+	});
 
 	describe("With invalid authorization field", () => {
 		const invalidTokenCases = ["invalid-token", ""];
