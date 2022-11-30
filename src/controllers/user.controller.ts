@@ -23,3 +23,5 @@ export const createUser = async (
 	const token = await registerUser(req.body);
 	res.status(StatusCodes.CREATED).json({ token });
 };
+
+export const deleteUserById = async (req: Request, res: Response) => {};
