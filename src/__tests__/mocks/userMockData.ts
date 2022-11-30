@@ -2,12 +2,20 @@
   createUser mocks
 */
 
-export const validData = {
+export const firstNewUser = {
 	displayName: "Rubinho Barrichello",
 	email: "rubinho@gmail.com",
 	password: "654321",
 	image:
 		"https://www.globalframe.com.br/gf_base/empresas/MIGA/imagens/BDA23B2786FD3B7EC65745DC3FA1EE49D31B_barrichello-1.jpg",
+};
+
+export const secondNewUser = {
+	displayName: "Max Verstappen",
+	email: "maxverstappen@gmail.com",
+	password: "1234f1",
+	image:
+		"https://cdn-4.motorsport.com/images/mgl/24vA3r46/s8/max-verstappen-red-bull-racing-1.jpg",
 };
 
 export const emptyFieldsData = [

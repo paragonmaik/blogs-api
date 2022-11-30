@@ -4,7 +4,8 @@ import prisma from "../db";
 import { StatusCodes } from "http-status-codes";
 import { seedDB } from "../../prisma/test-setup";
 import {
-	validData,
+	firstNewUser,
+	secondNewUser,
 	emptyFieldsData,
 	incorrectDisplayNameLength,
 	incorrectPasswordLength,
@@ -17,14 +18,19 @@ describe("POST /user", () => {
 		seedDB();
 	});
 	describe("Create user with adequate displayName, email, password and image fields", () => {
-		it("should respond with status code 201 and valid token", async () => {
-			const response = await request(app).post("/user").send(validData);
+		it("should respond with status code 201", async () => {
+			const response = await request(app).post("/user").send(firstNewUser);
+
+			expect(response.statusCode).toBe(StatusCodes.CREATED);
+		});
+
+		it("should respond with a valid token", async () => {
+			const response = await request(app).post("/user").send(secondNewUser);
 			const newlyCreatedUser = await prisma.user.findFirst({
 				where: {
-					email: validData.email,
+					email: firstNewUser.email,
 				},
 			});
-			expect(response.statusCode).toBe(StatusCodes.CREATED);
 			expect(newlyCreatedUser).toBeTruthy();
 			expect(response.body.token).toBeDefined();
 		});
