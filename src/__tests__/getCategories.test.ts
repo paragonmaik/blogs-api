@@ -2,14 +2,37 @@ import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
 import { loginData } from "./mocks/loginMockData";
-import { seedDB } from "../../prisma/test-setup";
+
+const categoriesList = [
+	{ id: 1, name: "Inovação" },
+	{ id: 2, name: "Escola" },
+];
 
 describe("POST /categories", () => {
-	beforeAll(() => {
-		// seedDB();
-	});
+	describe("Categories with valid token", () => {
+		it("should respond with status code 200", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
 
-	describe("Categories with valid token", () => {});
+			const response = await request(app)
+				.get("/categories")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.OK);
+		});
+
+		it("should return a list of categories", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const categories = await request(app)
+				.get("/categories")
+				.set("Authorization", loginResponse.body.token);
+
+			categoriesList.forEach((category, i) => {
+				expect(categories.body[i].id).toBe(category.id);
+				expect(categories.body[i].name).toBe(category.name);
+			});
+		});
+	});
 
 	describe("With invalid token", () => {
 		const invalidTokenCases = ["invalid-token", ""];
