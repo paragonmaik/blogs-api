@@ -17,7 +17,7 @@ describe("POST /user", () => {
 		seedDB();
 	});
 	describe("Create user with adequate displayName, email, password and image fields", () => {
-		it("should respond with status code 201", async () => {
+		it("should respond with status code 201 and valid token", async () => {
 			const response = await request(app).post("/user").send(validData);
 			const newlyCreatedUser = await prisma.user.findFirst({
 				where: {
