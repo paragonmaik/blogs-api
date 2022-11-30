@@ -1,4 +1,4 @@
-export const validData = {
+export const loginData = {
 	email: "lewishamilton@gmail.com",
 	password: "123456",
 };
