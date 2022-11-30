@@ -1,13 +1,9 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import prisma from "../db";
+import { registerCategory } from "../services/category.service";
 
 export const createCategory = async (req: Request, res: Response) => {
-	const category = await prisma.category.create({
-		data: {
-			name: req.body.name,
-		},
-	});
+	const response = await registerCategory(req.body.name);
 
-	res.status(StatusCodes.CREATED).json(category);
+	res.status(StatusCodes.CREATED).json(response);
 };
