@@ -9,6 +9,6 @@ const routers = express.Router();
 routers.use("/login", loginRouter);
 routers.use("/user", userRouter);
 routers.use("/categories", categoryRouter);
-routers.use("post", postRouter);
+routers.use("/post", postRouter);
 
 export default routers;
