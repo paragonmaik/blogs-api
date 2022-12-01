@@ -1,19 +1,48 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-// import { seedDB } from "../../prisma/test-setup";
+import { seedDB } from "../../prisma/test-setup";
 import { loginData } from "./mocks/loginMockData";
 import {
-	newPost,
+	firstValidPost,
+	secondValidPost,
 	newPostWithInvalidId,
 	invalidNewPost,
 } from "./mocks/postMockData";
 
 describe("POST /post", () => {
-	// beforeAll(() => {
-	// 	seedDB();
-	// });
-	describe("Create user with correct displayName, email, password and image fields", () => {});
+	beforeAll(() => {
+		seedDB();
+	});
+	describe("Create user with correct displayName, email, password and image fields", () => {
+		it("should respond with status code 201", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/post")
+				.send(firstValidPost)
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.statusCode).toBe(StatusCodes.CREATED);
+		});
+
+		it("should respond with created category data", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.post("/post")
+				.send(secondValidPost)
+				.set("Authorization", loginResponse.body.token);
+
+			console.log(response.body);
+			expect(response.body.id).toBeDefined();
+			expect(response.body.title).toBeDefined();
+			expect(response.body.content).toBeDefined();
+			expect(response.body.userId).toBeDefined();
+			expect(response.body.updated).toBeDefined();
+			expect(response.body.published).toBeDefined();
+		});
+	});
 
 	describe("Request with incorrect data", () => {
 		it("should respond with status code 400", async () => {
@@ -43,7 +72,7 @@ describe("POST /post", () => {
 				.send(newPostWithInvalidId)
 				.set("Authorization", loginResponse.body.token);
 
-			expect(response.body.message).toBe('"categoryIds" not found');
+			expect(response.body.message).toBe('"categoryId" not found');
 		});
 	});
 
