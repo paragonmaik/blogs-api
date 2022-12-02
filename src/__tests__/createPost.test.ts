@@ -34,7 +34,6 @@ describe("POST /post", () => {
 				.send(secondValidPost)
 				.set("Authorization", loginResponse.body.token);
 
-			console.log(response.body);
 			expect(response.body.id).toBeDefined();
 			expect(response.body.title).toBeDefined();
 			expect(response.body.content).toBeDefined();

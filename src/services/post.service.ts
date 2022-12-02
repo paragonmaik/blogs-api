@@ -1,5 +1,7 @@
 import prisma from "../db";
 import { IPost } from "../interfaces/IPost";
+import { HttpException } from "../middlewares/HttpException";
+import { StatusCodes } from "http-status-codes";
 
 export const createPost = async (
 	userId: number,
@@ -14,7 +16,7 @@ export const createPost = async (
 	});
 
 	if (category.length === 0) {
-		return null;
+		throw new HttpException(StatusCodes.BAD_REQUEST, '"categoryId" not found');
 	}
 
 	const newPost = await prisma.blogPost.create({

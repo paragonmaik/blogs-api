@@ -10,7 +10,7 @@ export const secondValidPost = {
 		"Bitcoin's Price Action Is Encouraging, Yet It May Not Signal Bottom: Traders",
 	content:
 		"It's winter out there in the real word and the digital assets market, yet crypto twitter is going bottom fishing.",
-	categoryId: [2],
+	categoryId: [1],
 };
 
 export const newPostWithInvalidId = {
