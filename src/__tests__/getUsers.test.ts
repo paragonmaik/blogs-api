@@ -4,7 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { usersList } from "./mocks/userMockData";
 import { loginData } from "./mocks/loginMockData";
 
-describe("GET /users", () => {
+describe("GET /user", () => {
 	describe("Users with valid token", () => {
 		it("should respond with status code 200", async () => {
 			const loginResponse = await request(app).post("/login").send(loginData);

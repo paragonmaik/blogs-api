@@ -7,6 +7,7 @@ require("express-async-errors");
 
 const routers = express.Router();
 
+routers.get("/", authenticationMiddleware);
 routers.post(
 	"/",
 	authenticationMiddleware,
