@@ -26,7 +26,7 @@ model BlogPost {
   userId          Int?
   updated         DateTime       @updatedAt
   published       DateTime       @default(now())
-  belongsTo       User?          @relation(fields: [userId], references: [id])
+  user            User?          @relation(fields: [userId], references: [id])
   PostsCategories PostCategory[]
 
   @@unique([id, userId])
