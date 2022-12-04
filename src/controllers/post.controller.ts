@@ -12,7 +12,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
 export const getPostById = async (req: Request, res: Response) => {
 	const response = await getOnePost(+req.params.id);
 
-	res.status(StatusCodes.OK).end();
+	res.status(StatusCodes.OK).json(response);
 };
 
 export const createNewPost = async (

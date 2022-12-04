@@ -6,7 +6,14 @@ import { StatusCodes } from "http-status-codes";
 export const getPostsList = async () =>
 	await prisma.blogPost.findMany({
 		include: {
-			user: true,
+			user: {
+				select: {
+					id: true,
+					displayName: true,
+					email: true,
+					image: true,
+				},
+			},
 		},
 	});
 
@@ -14,6 +21,16 @@ export const getOnePost = async (id: number) => {
 	const post = await prisma.blogPost.findUnique({
 		where: {
 			id,
+		},
+		include: {
+			user: {
+				select: {
+					id: true,
+					displayName: true,
+					email: true,
+					image: true,
+				},
+			},
 		},
 	});
 

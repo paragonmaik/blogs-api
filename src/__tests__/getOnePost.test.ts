@@ -14,6 +14,23 @@ describe("GET /post/:id", () => {
 
 			expect(response.status).toBe(StatusCodes.OK);
 		});
+
+		it("should return a list of users", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const post = await request(app)
+				.get("/post/1")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(post.body.id).toBeDefined();
+			expect(post.body.title).toBeDefined();
+			expect(post.body.content).toBeDefined();
+			expect(post.body.userId).toBeDefined();
+			expect(post.body.published).toBeDefined();
+			expect(post.body.updated).toBeDefined();
+			expect(post.body.user).toBeDefined();
+			expect(post.body.user.password).toBeUndefined();
+		});
 	});
 
 	describe("With invalid id", () => {
