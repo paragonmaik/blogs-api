@@ -8,6 +8,7 @@ require("express-async-errors");
 const routers = express.Router();
 
 routers.get("/", authenticationMiddleware, getAllPosts);
+routers.get("/:id", authenticationMiddleware);
 routers.post(
 	"/",
 	authenticationMiddleware,
