@@ -10,6 +10,20 @@ export const getPostsList = async () =>
 		},
 	});
 
+export const getOnePost = async (id: number) => {
+	const post = await prisma.blogPost.findUnique({
+		where: {
+			id,
+		},
+	});
+
+	if (!post) {
+		throw new HttpException(StatusCodes.NOT_FOUND, "Post does not exist");
+	}
+
+	return post;
+};
+
 export const createPost = async (
 	userId: number,
 	{ title, content, categoryId }: IPost

@@ -1,9 +1,42 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
+import { loginData } from "./mocks/loginMockData";
 
 describe("GET /post/:id", () => {
-	describe("Users with valid token", () => {});
+	describe("Users with valid token", () => {
+		it("should respond with status code 200", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.get("/post/1")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.OK);
+		});
+	});
+
+	describe("With invalid id", () => {
+		it("should respond with status code 404", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.get("/post/300")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.NOT_FOUND);
+		});
+
+		it("should respond with correct message in case of invalid id", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.get("/post/300")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.body.message).toBe("Post does not exist");
+		});
+	});
 
 	describe("With invalid token", () => {
 		const invalidTokenCases = ["invalid-token", ""];
