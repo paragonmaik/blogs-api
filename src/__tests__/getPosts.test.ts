@@ -1,8 +1,40 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
+import { loginData } from "./mocks/loginMockData";
 
 describe("GET /post", () => {
+	describe("Users with valid token", () => {
+		it("should respond with status code 200", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const response = await request(app)
+				.get("/post")
+				.set("Authorization", loginResponse.body.token);
+
+			expect(response.status).toBe(StatusCodes.OK);
+		});
+
+		it("should return a list of users", async () => {
+			const loginResponse = await request(app).post("/login").send(loginData);
+
+			const posts = await request(app)
+				.get("/post")
+				.set("Authorization", loginResponse.body.token);
+
+			console.log(posts.body);
+			for (const post of posts.body) {
+				expect(post.id).toBeDefined();
+				expect(post.title).toBeDefined();
+				expect(post.content).toBeDefined();
+				expect(post.userId).toBeDefined();
+				expect(post.published).toBeDefined();
+				expect(post.updated).toBeDefined();
+				expect(post.user).toBeDefined();
+			}
+		});
+	});
+
 	describe("With invalid token", () => {
 		const invalidTokenCases = ["invalid-token", ""];
 

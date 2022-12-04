@@ -3,6 +3,13 @@ import { IPost } from "../interfaces/IPost";
 import { HttpException } from "../middlewares/HttpException";
 import { StatusCodes } from "http-status-codes";
 
+export const getPostsList = async () =>
+	await prisma.blogPost.findMany({
+		include: {
+			user: true,
+		},
+	});
+
 export const createPost = async (
 	userId: number,
 	{ title, content, categoryId }: IPost
