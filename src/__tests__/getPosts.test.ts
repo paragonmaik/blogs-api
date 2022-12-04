@@ -22,7 +22,6 @@ describe("GET /post", () => {
 				.get("/post")
 				.set("Authorization", loginResponse.body.token);
 
-			console.log(posts.body);
 			for (const post of posts.body) {
 				expect(post.id).toBeDefined();
 				expect(post.title).toBeDefined();
@@ -31,6 +30,7 @@ describe("GET /post", () => {
 				expect(post.published).toBeDefined();
 				expect(post.updated).toBeDefined();
 				expect(post.user).toBeDefined();
+				expect(post.user.password).toBeUndefined();
 			}
 		});
 	});
