@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
-import { createPost, getPostsList, getOnePost } from "../services/post.service";
+import {
+	createPost,
+	getPostsList,
+	getOnePost,
+	updatePost,
+} from "../services/post.service";
 import { IPost } from "../interfaces/IPost";
 
-export const getAllPosts = async (req: Request, res: Response) => {
+export const getAllPosts = async (_req: Request, res: Response) => {
 	const response = await getPostsList();
 
 	res.status(StatusCodes.OK).json(response);
@@ -23,4 +28,19 @@ export const createNewPost = async (
 	const response = await createPost(id, req.body);
 
 	res.status(StatusCodes.CREATED).json(response);
+};
+
+export const editPost = async (req: Request, res: Response) => {
+	const { id } = req.params;
+	const userId = res.locals.payload.id;
+	const { title, content } = req.body;
+
+	if (!req.body.title || !req.body.content) {
+		return res.status(StatusCodes.BAD_REQUEST).json({
+			message: "Some required fields are missing",
+		});
+	}
+
+	const response = await updatePost(+id, +userId, { title, content });
+	res.status(StatusCodes.OK).json(response);
 };

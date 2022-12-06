@@ -6,6 +6,7 @@ import {
 	createNewPost,
 	getAllPosts,
 	getPostById,
+	editPost,
 } from "../controllers/post.controller";
 require("express-async-errors");
 
@@ -19,6 +20,6 @@ routers.post(
 	validateSchema(PostSchema),
 	createNewPost
 );
-routers.put("/:id", authenticationMiddleware);
+routers.put("/:id", authenticationMiddleware, editPost);
 
 export default routers;

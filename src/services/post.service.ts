@@ -76,3 +76,41 @@ export const createPost = async (
 
 	return newPost;
 };
+
+export const updatePost = async (
+	id: number,
+	userId: number,
+	{ title, content }: any
+) => {
+	const post = await prisma.blogPost.findFirst({
+		where: {
+			id,
+			userId,
+		},
+	});
+	if (!post) {
+		throw new HttpException(StatusCodes.UNAUTHORIZED, "Unauthorized user");
+	}
+
+	const editedPost = await prisma.blogPost.update({
+		where: {
+			id,
+		},
+		data: {
+			title,
+			content,
+		},
+		include: {
+			user: {
+				select: {
+					id: true,
+					displayName: true,
+					email: true,
+					image: true,
+				},
+			},
+		},
+	});
+
+	return editedPost;
+};
