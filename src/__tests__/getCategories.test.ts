@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata } from "./mocks/loginMockData";
 
 const categoriesList = [
 	{ id: 1, name: "Inovação" },
@@ -11,7 +11,9 @@ const categoriesList = [
 describe("POST /categories", () => {
 	describe("Categories with valid token", () => {
 		it("should respond with status code 200", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.get("/categories")
@@ -21,7 +23,9 @@ describe("POST /categories", () => {
 		});
 
 		it("should return a list of categories", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const categories = await request(app)
 				.get("/categories")

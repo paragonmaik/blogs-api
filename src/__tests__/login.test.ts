@@ -3,7 +3,7 @@ import app from "../app";
 import { StatusCodes } from "http-status-codes";
 import { seedDB } from "../../prisma/test-setup";
 import {
-	loginData,
+	lewisLogindata,
 	missingFieldsData,
 	invalidUserData,
 	invalidPasswordData,
@@ -16,13 +16,13 @@ describe("POST /login", () => {
 
 	describe("Login with adequate email and password", () => {
 		it("should respond with status code 200", async () => {
-			const response = await request(app).post("/login").send(loginData);
+			const response = await request(app).post("/login").send(lewisLogindata);
 
 			expect(response.statusCode).toBe(StatusCodes.OK);
 		});
 
 		it("should return a token", async () => {
-			const response = await request(app).post("/login").send(loginData);
+			const response = await request(app).post("/login").send(lewisLogindata);
 
 			expect(response.body.token).toBeDefined();
 		});

@@ -1,12 +1,14 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata } from "./mocks/loginMockData";
 
 describe("GET /post", () => {
 	describe("Users with valid token", () => {
 		it("should respond with status code 200", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.get("/post")
@@ -15,8 +17,10 @@ describe("GET /post", () => {
 			expect(response.status).toBe(StatusCodes.OK);
 		});
 
-		it("should return a list of users", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+		it("should return a list of posts", async () => {
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const posts = await request(app)
 				.get("/post")

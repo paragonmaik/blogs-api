@@ -2,10 +2,9 @@ import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
 import { seedDB } from "../../prisma/test-setup";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata, michaelLoginData } from "./mocks/loginMockData";
 import {
 	firstValidPost,
-	secondValidPost,
 	newPostWithInvalidId,
 	invalidNewPost,
 } from "./mocks/postMockData";
@@ -16,7 +15,9 @@ describe("POST /post", () => {
 	});
 	describe("Create user with correct displayName, email, password and image fields", () => {
 		it("should respond with status code 201", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/post")
@@ -27,11 +28,13 @@ describe("POST /post", () => {
 		});
 
 		it("should respond with created category data", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(michaelLoginData);
 
 			const response = await request(app)
 				.post("/post")
-				.send(secondValidPost)
+				.send(firstValidPost)
 				.set("Authorization", loginResponse.body.token);
 
 			expect(response.body.id).toBeDefined();
@@ -45,7 +48,9 @@ describe("POST /post", () => {
 
 	describe("Request with incorrect data", () => {
 		it("should respond with status code 400", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/post")
@@ -55,7 +60,9 @@ describe("POST /post", () => {
 		});
 
 		it("should respond with correct error message in case of missing fields", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 			const response = await request(app)
 				.post("/post")
 				.send(invalidNewPost)
@@ -65,7 +72,9 @@ describe("POST /post", () => {
 		});
 
 		it("should respond with correct error message in case of invalid categoryId", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 			const response = await request(app)
 				.post("/post")
 				.send(newPostWithInvalidId)

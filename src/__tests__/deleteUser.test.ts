@@ -2,7 +2,7 @@ import request from "supertest";
 import app from "../app";
 import prisma from "../db";
 import { StatusCodes } from "http-status-codes";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata } from "./mocks/loginMockData";
 import { seedDB } from "../../prisma/test-setup";
 
 describe("DELETE /user/me", () => {
@@ -11,7 +11,9 @@ describe("DELETE /user/me", () => {
 	});
 	describe("With valid token", () => {
 		it("should respond with status code 204", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.delete("/user/me")
@@ -23,7 +25,7 @@ describe("DELETE /user/me", () => {
 		it("should not be able to find user in the database", async () => {
 			const deletedUser = await prisma.user.findFirst({
 				where: {
-					email: loginData.email,
+					email: lewisLogindata.email,
 				},
 			});
 

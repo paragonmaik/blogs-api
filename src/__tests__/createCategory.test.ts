@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata } from "./mocks/loginMockData";
 import { seedDB } from "../../prisma/test-setup";
 
 const firstCategory = { name: "TypeScript" };
@@ -14,7 +14,9 @@ describe("POST /categories", () => {
 
 	describe("Categories with valid token", () => {
 		it("should respond with status code 201", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/categories")
@@ -25,7 +27,9 @@ describe("POST /categories", () => {
 		});
 
 		it("should respond with created category data", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/categories")
@@ -37,7 +41,9 @@ describe("POST /categories", () => {
 		});
 
 		it("should respond with status code 400", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/categories")
@@ -47,7 +53,9 @@ describe("POST /categories", () => {
 		});
 
 		it("should respond with with correct error message", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.post("/categories")

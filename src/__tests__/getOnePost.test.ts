@@ -1,12 +1,14 @@
 import request from "supertest";
 import app from "../app";
 import { StatusCodes } from "http-status-codes";
-import { loginData } from "./mocks/loginMockData";
+import { lewisLogindata } from "./mocks/loginMockData";
 
 describe("GET /post/:id", () => {
 	describe("Users with valid token", () => {
 		it("should respond with status code 200", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.get("/post/1")
@@ -15,8 +17,10 @@ describe("GET /post/:id", () => {
 			expect(response.status).toBe(StatusCodes.OK);
 		});
 
-		it("should return a list of users", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+		it("should return one post", async () => {
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const post = await request(app)
 				.get("/post/1")
@@ -35,7 +39,9 @@ describe("GET /post/:id", () => {
 
 	describe("With invalid id", () => {
 		it("should respond with status code 404", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.get("/post/300")
@@ -45,7 +51,9 @@ describe("GET /post/:id", () => {
 		});
 
 		it("should respond with correct message in case of invalid id", async () => {
-			const loginResponse = await request(app).post("/login").send(loginData);
+			const loginResponse = await request(app)
+				.post("/login")
+				.send(lewisLogindata);
 
 			const response = await request(app)
 				.get("/post/300")
