@@ -19,5 +19,6 @@ routers.post(
 	validateSchema(PostSchema),
 	createNewPost
 );
+routers.put("/:id", authenticationMiddleware);
 
 export default routers;
