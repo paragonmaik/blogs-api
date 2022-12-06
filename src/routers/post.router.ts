@@ -20,6 +20,11 @@ routers.post(
 	validateSchema(PostSchema),
 	createNewPost
 );
-routers.put("/:id", authenticationMiddleware, editPost);
+routers.put(
+	"/:id",
+	authenticationMiddleware,
+	validateSchema(PostSchema),
+	editPost
+);
 
 export default routers;

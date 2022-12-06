@@ -35,12 +35,6 @@ export const editPost = async (req: Request, res: Response) => {
 	const userId = res.locals.payload.id;
 	const { title, content } = req.body;
 
-	if (!req.body.title || !req.body.content) {
-		return res.status(StatusCodes.BAD_REQUEST).json({
-			message: "Some required fields are missing",
-		});
-	}
-
 	const response = await updatePost(+id, +userId, { title, content });
 	res.status(StatusCodes.OK).json(response);
 };

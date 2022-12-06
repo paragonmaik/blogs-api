@@ -85,6 +85,7 @@ describe("PUT /post/:id", () => {
 			const loginResponse = await request(app)
 				.post("/login")
 				.send(lewisLogindata);
+
 			const response = await request(app)
 				.put("/post/1")
 				.send(invalidEditPostData)

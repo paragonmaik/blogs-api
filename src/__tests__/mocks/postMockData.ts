@@ -29,6 +29,7 @@ export const invalidNewPost = {
 
 export const invalidEditPostData = {
 	title: "Tesla Stock Drops After Sales Record In China, Production ...",
+	content: "",
 };
 
 export const editPostData = {
