@@ -1,5 +1,10 @@
-export const loginData = {
+export const lewisLogindata = {
 	email: "lewishamilton@gmail.com",
+	password: "123456",
+};
+
+export const michaelLoginData = {
+	email: "michaelschumacher@gmail.com",
 	password: "123456",
 };
 

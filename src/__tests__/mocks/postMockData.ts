@@ -26,3 +26,13 @@ export const invalidNewPost = {
 	content: "",
 	categoryId: [],
 };
+
+export const invalidEditPostData = {
+	title: "Tesla Stock Drops After Sales Record In China, Production ...",
+};
+
+export const editPostData = {
+	title: "Tesla Stock Drops After Sales Record In China, Production ...",
+	content:
+		"Tesla (TSLA) sold a record number of China-made vehicles in November, according to data released by the EV giant Monday. However, multiple reports on Monday said Tesla is also planning to cut its EV production in China, as demand seems to be faltering. Tesla stock tumbled Monday but traded up in overnight action.",
+};
