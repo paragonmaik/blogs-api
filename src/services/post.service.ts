@@ -1,7 +1,7 @@
-import prisma from "../db";
-import { IPost } from "../interfaces/IPost";
-import { HttpException } from "../middlewares/HttpException";
-import { StatusCodes } from "http-status-codes";
+import prisma from '../db';
+import { IPost } from '../interfaces/IPost';
+import { HttpException } from '../middlewares/HttpException';
+import { StatusCodes } from 'http-status-codes';
 
 export const getPostsList = async () =>
 	await prisma.blogPost.findMany({
@@ -35,7 +35,7 @@ export const getOnePost = async (id: number) => {
 	});
 
 	if (!post) {
-		throw new HttpException(StatusCodes.NOT_FOUND, "Post does not exist");
+		throw new HttpException(StatusCodes.NOT_FOUND, 'Post does not exist');
 	}
 
 	return post;
@@ -89,7 +89,7 @@ export const updatePost = async (
 		},
 	});
 	if (!post) {
-		throw new HttpException(StatusCodes.UNAUTHORIZED, "Unauthorized user");
+		throw new HttpException(StatusCodes.UNAUTHORIZED, 'Unauthorized user');
 	}
 
 	const editedPost = await prisma.blogPost.update({
