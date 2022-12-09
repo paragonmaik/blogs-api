@@ -1,8 +1,8 @@
-import { createToken, hashPassword } from "../utils/auth";
-import { IUser } from "../interfaces/IUser";
-import { HttpException } from "../middlewares/HttpException";
-import prisma from "../db";
-import { StatusCodes } from "http-status-codes";
+import { createToken, hashPassword } from '../utils/auth';
+import { IUser } from '../interfaces/IUser';
+import { HttpException } from '../middlewares/HttpException';
+import prisma from '../db';
+import { StatusCodes } from 'http-status-codes';
 
 export const getUsersList = async () =>
 	await prisma.user.findMany({
@@ -26,7 +26,7 @@ export const getOneUser = async (id: number) => {
 	});
 
 	if (!user) {
-		throw new HttpException(StatusCodes.NOT_FOUND, "User does not exist");
+		throw new HttpException(StatusCodes.NOT_FOUND, 'User does not exist');
 	}
 
 	return user;
@@ -43,8 +43,9 @@ export const registerUser = async (user: IUser) => {
 	});
 
 	if (findUserResponse) {
-		throw new HttpException(StatusCodes.CONFLICT, "User already registered");
+		throw new HttpException(StatusCodes.CONFLICT, 'User already registered');
 	}
+
 	const payload = await prisma.user.create({
 		data: {
 			displayName: user.displayName,
@@ -62,6 +63,7 @@ export const registerUser = async (user: IUser) => {
 };
 
 export const removeUser = async (email: string) => {
+	// refatorar, response não precisa ser retornado
 	const response = await prisma.user.delete({
 		where: {
 			email,
