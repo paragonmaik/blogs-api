@@ -62,13 +62,9 @@ export const registerUser = async (user: IUser) => {
 	return token;
 };
 
-export const removeUser = async (email: string) => {
-	// refatorar, response não precisa ser retornado
-	const response = await prisma.user.delete({
+export const removeUser = async (email: string) =>
+	await prisma.user.delete({
 		where: {
 			email,
 		},
 	});
-
-	return response;
-};
