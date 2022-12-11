@@ -114,3 +114,33 @@ export const updatePost = async (
 
 	return editedPost;
 };
+
+export const deletePost = async (id: number, userId: number) => {
+	const post = await prisma.blogPost.findUnique({
+		where: {
+			id,
+		},
+	});
+
+	if (!post) {
+		throw new HttpException(StatusCodes.NOT_FOUND, 'Post does not exist');
+	}
+
+	if (post.userId !== userId) {
+		throw new HttpException(StatusCodes.UNAUTHORIZED, 'Unauthorized user');
+	}
+
+	const deletePostCategory = prisma.postCategory.deleteMany({
+		where: {
+			postId: id,
+		},
+	});
+
+	const deletePost = prisma.blogPost.delete({
+		where: {
+			id,
+		},
+	});
+
+	await prisma.$transaction([deletePostCategory, deletePost]);
+};

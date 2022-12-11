@@ -1,12 +1,13 @@
-import { Request, Response } from "express";
-import { StatusCodes } from "http-status-codes";
+import { Request, Response } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import {
 	createPost,
 	getPostsList,
 	getOnePost,
 	updatePost,
-} from "../services/post.service";
-import { IPost } from "../interfaces/IPost";
+	deletePost,
+} from '../services/post.service';
+import { IPost } from '../interfaces/IPost';
 
 export const getAllPosts = async (_req: Request, res: Response) => {
 	const response = await getPostsList();
@@ -37,4 +38,12 @@ export const editPost = async (req: Request, res: Response) => {
 
 	const response = await updatePost(+id, +userId, { title, content });
 	res.status(StatusCodes.OK).json(response);
+};
+
+export const deletePostById = async (req: Request, res: Response) => {
+	const { id } = req.params;
+	const userId = res.locals.payload.id;
+
+	await deletePost(+id, +userId);
+	res.status(StatusCodes.NO_CONTENT).end();
 };

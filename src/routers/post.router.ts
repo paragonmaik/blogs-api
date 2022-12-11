@@ -7,6 +7,7 @@ import {
 	getAllPosts,
 	getPostById,
 	editPost,
+	deletePostById,
 } from '../controllers/post.controller';
 require('express-async-errors');
 
@@ -26,6 +27,6 @@ routers.put(
 	validateSchema(PostSchema),
 	editPost
 );
-routers.delete('/:id', authenticationMiddleware);
+routers.delete('/:id', authenticationMiddleware, deletePostById);
 
 export default routers;
